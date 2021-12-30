@@ -13,15 +13,11 @@ public class AccountService {
     private final AccountRepository accountRepository;
 
     public boolean isClientHasContract(@NonNull long clientId, @NonNull long contractNumber) {
-        if (accountRepository.getAllContractsByClientId(clientId).contains(contractNumber))
-            return true;
-        return false;
+        return accountRepository.getAllContractsByClientId(clientId).contains(contractNumber);
     }
 
     public boolean isBankBranch(@NonNull long bankBranchId, @NonNull long contractNumber) {
-        if (accountRepository.getBanksByContractNumber(contractNumber).contains(bankBranchId))
-            return true;
-        return false;
+        return accountRepository.getBanksByContractNumber(contractNumber).contains(bankBranchId);
     }
 
 }

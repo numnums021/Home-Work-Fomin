@@ -91,7 +91,7 @@ class AccountServiceTest {
 
     @Test
     void serviceHasTreeMethods() {
-        assertEquals(3, AccountService.class.getMethods().length - Object.class.getMethods().length);
+        assertEquals(2, AccountService.class.getMethods().length - Object.class.getMethods().length);
     }
 
 }

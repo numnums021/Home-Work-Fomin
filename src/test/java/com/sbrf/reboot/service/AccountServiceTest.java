@@ -37,7 +37,7 @@ class AccountServiceTest {
         long contractNumber = 111L;
 
 
-        when(accountRepository.getAllAccountsByClientId(clientId)).thenReturn(accounts);
+        when(accountRepository.getAllContractsByClientId(clientId)).thenReturn(accounts);
 
         assertTrue(accountService.isClientHasContract(clientId, contractNumber));
     }
@@ -51,9 +51,37 @@ class AccountServiceTest {
         long clientId = 1L;
         long contractNumber = 111L;
 
-        when(accountRepository.getAllAccountsByClientId(clientId)).thenReturn(accounts);
+        when(accountRepository.getAllContractsByClientId(clientId)).thenReturn(accounts);
 
         assertFalse(accountService.isClientHasContract(clientId, contractNumber));
+    }
+
+    @SneakyThrows
+    @Test
+    void bankBranchExist() {
+        Set<Long> banks = new HashSet();
+        banks.add(1001L);
+
+        long bankBranch = 1001L;
+        long contractNumber = 111L;
+
+        when(accountRepository.getBanksByContractNumber(contractNumber)).thenReturn(banks);
+
+        assertTrue(accountService.isBankBranch(bankBranch, contractNumber));
+    }
+
+    @SneakyThrows
+    @Test
+    void bankBranchNotExist() {
+        Set<Long> banks = new HashSet();
+        banks.add(1000L);
+
+        long bankBranch = 1001L;
+        long contractNumber = 111L;
+
+        when(accountRepository.getBanksByContractNumber(contractNumber)).thenReturn(banks);
+
+        assertFalse(accountService.isBankBranch(bankBranch, contractNumber));
     }
 
     @Test
@@ -63,7 +91,7 @@ class AccountServiceTest {
 
     @Test
     void serviceHasTreeMethods() {
-        assertEquals(2, AccountService.class.getMethods().length - Object.class.getMethods().length);
+        assertEquals(3, AccountService.class.getMethods().length - Object.class.getMethods().length);
     }
 
 }

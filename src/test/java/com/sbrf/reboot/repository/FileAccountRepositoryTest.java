@@ -18,10 +18,10 @@ class FileAccountRepositoryTest {
     @Test
     void onlyPersonalAccounts() throws IOException {
         String filePath = "src/main/resources/Accounts.txt";
-        //accountRepository = new FileAccountRepository(filePath);
+        accountRepository = new FileAccountRepository(filePath);
 
         long clientId = 1L;
-        //Set<Long> actualAccounts = accountRepository.getAllAccountsByClientId(clientId);
+        Set<Long> actualAccounts = accountRepository.getAllContractsByClientId(clientId);
 
         Set<Long> expected = new HashSet<Long>() {{
             add(111L);
@@ -29,7 +29,7 @@ class FileAccountRepositoryTest {
             add(333L);
         }};
 
-        //actualAccounts.forEach(e -> assertTrue(expected.contains(e)));
+        actualAccounts.forEach(e -> assertTrue(expected.contains(e)));
     }
 
     @Test
@@ -38,9 +38,9 @@ class FileAccountRepositoryTest {
 
         String filePath = "somePath";
 
-        //accountRepository = new FileAccountRepository(filePath);
+        accountRepository = new FileAccountRepository(filePath);
 
-        //assertThrows(FileNotFoundException.class, () -> accountRepository.getAllAccountsByClientId(clientId));
+        assertThrows(FileNotFoundException.class, () -> accountRepository.getAllContractsByClientId(clientId));
     }
 
 

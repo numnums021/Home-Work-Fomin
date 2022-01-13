@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 public class Main {
     public static void main(String[] args) throws FileNotFoundException {
         FileAccountRepository fileAccountRepository = new FileAccountRepository("src/main/resources/Accounts.txt");
-        fileAccountRepository.getAllContractsByClientId(1);
+        System.out.println(fileAccountRepository.getAllContractsByClientId(1));
+        //fileAccountRepository.updateClientContract(1, 111, 228);
     }
 }

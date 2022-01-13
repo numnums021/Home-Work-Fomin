@@ -1,71 +1,76 @@
 package com.sbrf.reboot.repository.impl;
 import com.sbrf.reboot.repository.AccountRepository;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
+@RequiredArgsConstructor
 public class FileAccountRepository implements AccountRepository {
 
-    String PATH = "src/main/resources/Accounts.txt";
+    private final String PATH;
+    private final String ARRAY_SYMBOL = "[/,:\"number clientId]";
 
-    public FileAccountRepository(String filePath) {
-        this.PATH = filePath;
+    @Override
+    public void updateClientContract(long clientId, long oldContractNumber, long newContractNumber) throws FileNotFoundException {
+        StringBuilder textForOutput = new StringBuilder();
+        try (BufferedReader bufferedReader = new BufferedReader (new FileReader(PATH))) {
+            String lineFromFile;
+            boolean flag = false;
+            while((lineFromFile = bufferedReader.readLine()) != null) {
+                if (flag) {
+                    textForOutput.append(lineFromFile.replaceAll("" + oldContractNumber, "" + newContractNumber)).append("\n");
+                    flag = false;
+                    continue;
+                }
+                if (checkLineOnClientID(lineFromFile, clientId)) {
+                    flag = true;
+                }
+                textForOutput.append(lineFromFile).append("\n");
+            }
+        }
+        catch(IOException ex) {
+            throw new FileNotFoundException();
+        }
+        writeTextInFile(textForOutput);
+    }
+    public void writeTextInFile(StringBuilder textForWriter) throws FileNotFoundException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH))) {
+            writer.write(textForWriter.toString());
+        }
+        catch (IOException e) {
+            throw new FileNotFoundException();
+        }
     }
 
     @Override
-    public Set<Long> getAllContractsByClientId(long clientId) throws FileNotFoundException{
-        ArrayList<String> accountsList = getAccountsListFromFile();
-        Set<Long> actualContracts = getAccountByClientId(clientId, accountsList);
-
-        System.out.println(actualContracts);
-
-        return actualContracts;
-    }
-
-    public Set<Long> getAccountByClientId(long clientId, ArrayList<String> accountsList) {
+    public Set<Long> getAllContractsByClientId(@NonNull long clientId) throws FileNotFoundException{
         Set<Long> actualContracts = new HashSet<>();
 
-        for (int i = 0; i < accountsList.size(); i++) {
-            if (String.valueOf(clientId).equals(accountsList.get(i).substring(accountsList.get(i).lastIndexOf("Id") + 2, accountsList.get(i).indexOf("nu")))) {
-                Long selectContract = Long.parseLong(accountsList.get(i).substring(accountsList.get(i).lastIndexOf("er") + 2, accountsList.get(i).length()));
-                actualContracts.add(selectContract);
+        try (BufferedReader bufferedReader = new BufferedReader (new FileReader(PATH))) {
+            String lineFromFile;
+            boolean flag = false;
+            while((lineFromFile = bufferedReader.readLine()) != null){
+                if (flag) {
+                    actualContracts.add(Long.parseLong(lineFromFile.replaceAll(ARRAY_SYMBOL, "")));
+                    flag = false;
+                }
+                if (checkLineOnClientID(lineFromFile, clientId)) {
+                    flag = true;
+                }
             }
+        }
+        catch(IOException ex) {
+            throw new FileNotFoundException();
         }
 
         return actualContracts;
     }
 
-    public ArrayList<String> getAccountsListFromFile() throws FileNotFoundException {
-        String fileText = "";
-        ArrayList<String> accountsList = new ArrayList<>();
-        try (FileInputStream fin = new FileInputStream(PATH)) {
-            int i = -1;
-            int flag = 0;
-            while ((i = fin.read()) != -1) {
-                char tmpChar = (char) i;
-                if ("{".equals(String.valueOf(tmpChar))) {
-                    flag = 1;
-                    continue;
-                }
-                if ("}".equals(String.valueOf(tmpChar))) flag = 0;
-                if (flag == 1 && !String.valueOf(tmpChar).equals(" ")  && !String.valueOf(tmpChar).equals("\n") && !String.valueOf(tmpChar).equals("\r")
-                        && !String.valueOf(tmpChar).equals(",") && !String.valueOf(tmpChar).equals("\"")&&!String.valueOf(tmpChar).equals(":"))
-                    fileText = fileText + "" + tmpChar;
-                else if (flag == 0 &&!fileText.equals("")) {
-                    accountsList.add(fileText);
-                    fileText = "";
-                }
-            }
-        } catch (FileNotFoundException ex) {
-            throw new FileNotFoundException("Неправильно введён путь до файла!");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return accountsList;
+    public boolean checkLineOnClientID(String line, long clientId){
+        return line.contains("clientId") && Long.parseLong(line.replaceAll(ARRAY_SYMBOL, "")) == clientId;
     }
 
 

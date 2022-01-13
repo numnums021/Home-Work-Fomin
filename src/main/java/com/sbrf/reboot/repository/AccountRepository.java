@@ -10,4 +10,6 @@ public interface AccountRepository {
 
     Set<Long> getBanksByContractNumber(long contractNumber);
 
+    void updateClientContract(long clientId, long oldContractNumber, long newContractNumber) throws FileNotFoundException;
+
 }

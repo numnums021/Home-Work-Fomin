@@ -1,12 +1,15 @@
 package com.sbrf.reboot.repository;
 
+import java.io.FileNotFoundException;
 import java.util.Objects;
 import java.util.Set;
 
 public interface AccountRepository {
 
-    Set<Long> getAllContractsByClientId(long clientId);
+    Set<Long> getAllContractsByClientId(long clientId) throws FileNotFoundException;
 
     Set<Long> getBanksByContractNumber(long contractNumber);
+
+    void updateClientContract(long clientId, long oldContractNumber, long newContractNumber) throws FileNotFoundException;
 
 }

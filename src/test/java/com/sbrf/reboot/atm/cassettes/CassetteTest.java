@@ -19,10 +19,12 @@ class CassetteTest {
 
         Cassette<OneHundred> cassette = new Cassette<>(new ArrayList<OneHundred>() {{
             add(oneHundred);
+            add(oneHundred);
+            add(oneHundred);
 //            add(new OneThousand()); //it will not compile
 //            add(new Banknote()); //it will not compile
         }});
 
-        Assertions.assertEquals(1, cassette.getCountBanknotes());
+        Assertions.assertEquals(3, cassette.getCountBanknotes());
     }
 }

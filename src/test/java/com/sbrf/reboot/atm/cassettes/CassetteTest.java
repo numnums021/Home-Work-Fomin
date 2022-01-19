@@ -4,6 +4,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CassetteTest {
 
@@ -26,5 +30,14 @@ class CassetteTest {
         }});
 
         Assertions.assertEquals(3, cassette.getCountBanknotes());
+    }
+
+
+    @Test
+    void printList() {
+        List<Object> list = Arrays.asList("Text1", "Text2");
+        for (Object el : list) {
+            Assertions.assertEquals(el, Cassette.getValue(el, String.class));
+        }
     }
 }

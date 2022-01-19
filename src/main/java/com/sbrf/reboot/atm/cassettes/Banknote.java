@@ -4,8 +4,12 @@ import lombok.Data;
 
 @Data
 public class Banknote {
-//    private int fiveThousand;
-//    private int oneThousand;
-//    private int fiveHundred;
-//    private int oneHundred;
+    @Data
+    public static class OneHundred extends Banknote {
+    }
+
+    @Data
+    public static class OneThousand extends Banknote {
+    }
+
 }

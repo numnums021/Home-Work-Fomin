@@ -1,6 +1,7 @@
 package com.sbrf.reboot.collections;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.internal.util.collections.Sets;
 
 import java.util.*;
 
@@ -52,11 +53,15 @@ public class CollectionsTest {
      */
     @Test
     public void addMoneyToBox() {
-
-         List<Integer> moneyBox = null;
-        // HashSet<Integer> moneyBox = null;
-
-        //...
+        /*
+        * Нам необходимо хранилище данных, в котором важна уникальность значений, но не важен порядок хранения
+        * для данной задачи лучше всего использовать HashSet.
+        * (при необходимости порядка хранения - LinkedHashSet)
+        */
+        Set<Integer> moneyBox = new HashSet<Integer>() {{
+            add(1); add(2); add(3);add(4);add(5);add(6);add(7);add(8);add(9);add(10);
+        }};
+        // Возможно ли более коротко записать без использования стримов?
 
         assertEquals(10, moneyBox.size());
     }

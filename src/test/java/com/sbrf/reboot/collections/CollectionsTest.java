@@ -2,7 +2,7 @@ package com.sbrf.reboot.collections;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -29,9 +29,13 @@ public class CollectionsTest {
     @Test
     public void addStudentToRating() {
 
-        List<String> students = null;
-
-        //...
+//        List<String> students = Collections.unmodifiableList(new ArrayList<String>(){{
+//            add("Иванов");
+//            add("Петров");
+//            add("Сидоров");
+//            add("Харитонов");
+//        }});
+        List<String> students = Arrays.asList("Иванов", "Петров", "Сидоров", "Харитонов");
 
         assertEquals(4, students.size());
     }
@@ -49,7 +53,8 @@ public class CollectionsTest {
     @Test
     public void addMoneyToBox() {
 
-        List<Integer> moneyBox = null;
+         List<Integer> moneyBox = null;
+        // HashSet<Integer> moneyBox = null;
 
         //...
 

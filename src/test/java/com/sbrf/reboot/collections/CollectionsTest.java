@@ -99,5 +99,40 @@ public class CollectionsTest {
         assertEquals(3, bookshelf.size());
     }
 
+    /*
+     * Доп. задание
+     * Имеется автомат.
+     * Время от времени игрок-солдат проивзодит стрельбу из него.
+     *
+     * Вопрос.
+     * Какую коллекцию из Collections framework вы предпочтете использовать для хранения патронов в рожке автомата.
+     *
+     * Проинициализируйте bookshelf, добавьте в неё 1/6 (5 патронов), что бы тест завершился успешно.
+     */
+    @Test
+    public void addCartridge() {
+        /*
+        * В контексте данной задачи можно выделить следующее:
+        * Добавляются патроны в рожок (обойму) последовательно.
+        * Патрон, который зайдёт последним, будет выпущен из автомата первым.
+        * Это значит, что структура данных должна выполнять принцип LIFO.
+        * В связи с этим, хоть эту структуру и не используют в настоящее время,
+        * лучше всего использовать Stack.
+         */
+        class Patron {
+
+        }
+
+        Vector<Patron> machineGun = new Stack<>();
+        machineGun.add(new Patron());
+        machineGun.add(new Patron());
+        machineGun.add(new Patron());
+        machineGun.add(new Patron());
+        machineGun.add(new Patron());
+
+        assertEquals(5, machineGun.size());
+    }
+
+
 
 }

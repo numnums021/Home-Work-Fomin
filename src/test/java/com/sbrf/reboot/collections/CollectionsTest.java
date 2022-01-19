@@ -78,12 +78,23 @@ public class CollectionsTest {
      */
     @Test
     public void addBookToShelf() {
+
+        /* Из условия поставленной задачи следует:
+         * У каждой книги есть своё место.
+         * На полке могут быть одинаковые книги.
+         * Чтобы взять книгу с полки - нужно найти её место.
+         * Самым простым решением данной задачи, будет использование ArrayList, так как
+         * время доступа к элементу по индексу минимально - O(1)
+         */
+
         class Book {
         }
 
-        List<Book> bookshelf = null;
-
-        //...
+        List<Book> bookshelf = Collections.unmodifiableList(new ArrayList<Book>(){{
+            add(new Book());
+            add(new Book());
+            add(new Book());
+        }});
 
         assertEquals(3, bookshelf.size());
     }

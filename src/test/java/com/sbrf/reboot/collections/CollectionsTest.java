@@ -28,13 +28,13 @@ public class CollectionsTest {
      */
     @Test
     public void addStudentToRating() {
+        /*
+        * Проще всего использовать ArrayList для хранения рейтинга студентов.
+        * Но по условию, чтобы попасть в рейтинг = нужно занять 1 место, тогда самым быстрым решением будет
+        * добавить ссылку на новое 1 место, то есть для хранения использовать LinkedList хоть он и будет весить больше из-за наличия ссылок
+        *
+        */
 
-//        List<String> students = Collections.unmodifiableList(new ArrayList<String>(){{
-//            add("Иванов");
-//            add("Петров");
-//            add("Сидоров");
-//            add("Харитонов");
-//        }});
         List<String> students = Arrays.asList("Иванов", "Петров", "Сидоров", "Харитонов");
 
         assertEquals(4, students.size());

@@ -107,7 +107,7 @@ public class CollectionsTest {
      * Вопрос.
      * Какую коллекцию из Collections framework вы предпочтете использовать для хранения патронов в рожке автомата.
      *
-     * Создайте machineGun и добавьте в неё 1/6 (5 патронов), что бы тест завершился успешно.
+     * Проинициализируйте machineGun, добавьте в неё 1/6 (5 патронов), что бы тест завершился успешно.
      */
     @Test
     public void addCartridge() {
@@ -123,12 +123,13 @@ public class CollectionsTest {
 
         }
 
-        Vector<Patron> machineGun = new Stack<>();
-        machineGun.add(new Patron());
-        machineGun.add(new Patron());
-        machineGun.add(new Patron());
-        machineGun.add(new Patron());
-        machineGun.add(new Patron());
+        List<Patron> machineGun = new Stack<Patron>(){{
+            add(new Patron());
+            add(new Patron());
+            add(new Patron());
+            add(new Patron());
+            add(new Patron());
+        }};
 
         assertEquals(5, machineGun.size());
     }

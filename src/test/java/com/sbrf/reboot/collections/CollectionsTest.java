@@ -103,11 +103,12 @@ public class CollectionsTest {
      * Доп. задание
      * Имеется автомат.
      * Время от времени игрок-солдат проивзодит стрельбу из него.
+     * Принцип стрельбы из автомата: патрон, который заряжается последним, будет выпущен первым.
      *
      * Вопрос.
      * Какую коллекцию из Collections framework вы предпочтете использовать для хранения патронов в рожке автомата.
      *
-     * Проинициализируйте machineGun, добавьте в неё 1/6 (5 патронов), что бы тест завершился успешно.
+     * Проинициализируйте machineGunClip, добавьте в неё 1/6 (5 патронов), что бы тест завершился успешно.
      */
     @Test
     public void addCartridge() {
@@ -123,7 +124,7 @@ public class CollectionsTest {
 
         }
 
-        List<Patron> machineGun = new Stack<Patron>(){{
+        List<Patron> machineGunClip = new Stack<Patron>(){{
             add(new Patron());
             add(new Patron());
             add(new Patron());
@@ -131,7 +132,7 @@ public class CollectionsTest {
             add(new Patron());
         }};
 
-        assertEquals(5, machineGun.size());
+        assertEquals(5, machineGunClip.size());
     }
 
 

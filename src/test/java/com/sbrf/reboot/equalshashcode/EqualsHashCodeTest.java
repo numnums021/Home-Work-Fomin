@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Objects;
 
 public class EqualsHashCodeTest {
 
@@ -16,12 +17,28 @@ public class EqualsHashCodeTest {
 
         @Override
         public boolean equals(Object o) {
+            // Первичная проверка объекта на null и на соответствие типов
+            if (o == null || o.getClass() != this.getClass())
+                return false;
 
+            Car car = (Car)o;
+            return (Objects.equals(model,car.model)) && (Objects.equals(color, car.color))
+                    && (maxSpeed == car.maxSpeed || maxSpeed > 0) && (Objects.equals(releaseDate,car.releaseDate));
             //Рефлексивность: объект должен равняться самому себе
-            if (o == this)
-                return true;
+            //if (o == this)
+               // return true;
 
-            return false;
+           // return false;
+        }
+
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + ((model == null) ? 0 : model.hashCode());
+            result = prime * result + maxSpeed;
+            result = prime * result + ((color == null) ? 0 : color.hashCode());
+            return result;
         }
 
 

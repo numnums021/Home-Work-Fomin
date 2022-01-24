@@ -36,7 +36,8 @@ public class CollectionsTest {
         *
         */
 
-        List<String> students = new LinkedList<>(Arrays.asList("Иванов", "Петров", "Сидоров", "Козлов"));
+        List<String> students = new LinkedList<>(Arrays.asList("Иванов", "Петров", "Сидоров"));
+        students.add(0, "Козлов");
 
         assertEquals(4, students.size());
     }
@@ -59,7 +60,9 @@ public class CollectionsTest {
         * (при необходимости порядка хранения - LinkedHashSet)
         */
         Set<Integer> moneyBox = new HashSet<Integer>() {{
-            add(1); add(2); add(3);add(4);add(5);add(6);add(7);add(8);add(9);add(10);
+            add(1);add(2);add(3);add(4);add(5);
+            add(6);add(7);add(8);add(9);add(10);
+
         }};
         // Возможно ли более коротко записать без использования стримов?
 

@@ -17,27 +17,33 @@ public class EqualsHashCodeTest {
 
         @Override
         public boolean equals(Object o) {
-            // Первичная проверка объекта на null и на соответствие типов
+            //Рефлексивность: объект должен равняться самому себе
+            if (o == this)
+             return true;
+
+            // Проверка объекта на null и на соответствие классов
+            // Для каждого экземпляра o: o.equals(null) должно возвращать false:
             if (o == null || o.getClass() != this.getClass())
                 return false;
 
             Car car = (Car)o;
-            return (Objects.equals(model,car.model)) && (Objects.equals(color, car.color))
-                    && (maxSpeed == car.maxSpeed || maxSpeed > 0) && (Objects.equals(releaseDate,car.releaseDate));
-            //Рефлексивность: объект должен равняться самому себе
-            //if (o == this)
-               // return true;
-
-           // return false;
+            // Симметричность: Если a.equals(b) == true, то и b.equals(a) должно возвращать true
+            return (Objects.equals(model, car.model))
+                    && (Objects.equals(color, car.color))
+                    && (Objects.equals(releaseDate,car.releaseDate)
+                    && (maxSpeed == car.maxSpeed));
         }
 
         @Override
         public int hashCode() {
             final int prime = 31;
             int result = 1;
+
             result = prime * result + ((model == null) ? 0 : model.hashCode());
-            result = prime * result + maxSpeed;
             result = prime * result + ((color == null) ? 0 : color.hashCode());
+            result = prime * result + ((releaseDate == null) ? 0 : releaseDate.hashCode());
+            result = prime * result + maxSpeed;
+
             return result;
         }
 
@@ -49,13 +55,13 @@ public class EqualsHashCodeTest {
         Car car1 = new Car();
         car1.model = "Mercedes";
         car1.color = "black";
-        car1.releaseDate = new GregorianCalendar(2020, 0, 25);
+        car1.releaseDate = new GregorianCalendar(2020, Calendar.JANUARY, 25);
         car1.maxSpeed = 10;
 
         Car car2 = new Car();
         car2.model = "Mercedes";
         car2.color = "black";
-        car2.releaseDate = new GregorianCalendar(2020, 0, 25);
+        car2.releaseDate = new GregorianCalendar(2020, Calendar.JANUARY, 25);
         car2.maxSpeed = 10;
 
 
@@ -67,13 +73,13 @@ public class EqualsHashCodeTest {
         Car car1 = new Car();
         car1.model = "Mercedes";
         car1.color = "black";
-        car1.releaseDate = new GregorianCalendar(2020, 0, 25);
+        car1.releaseDate = new GregorianCalendar(2020, Calendar.JANUARY, 25);
         car1.maxSpeed = 10;
 
         Car car2 = new Car();
         car2.model = "Audi";
         car2.color = "white";
-        car2.releaseDate = new GregorianCalendar(2017, 0, 25);
+        car2.releaseDate = new GregorianCalendar(2017, Calendar.JANUARY, 25);
         car2.maxSpeed = 10;
 
         Assertions.assertFalse(car1.equals(car2));
@@ -84,13 +90,13 @@ public class EqualsHashCodeTest {
         Car car1 = new Car();
         car1.model = "Mercedes";
         car1.color = "black";
-        car1.releaseDate = new GregorianCalendar(2020, 0, 25);
+        car1.releaseDate = new GregorianCalendar(2020, Calendar.JANUARY, 25);
         car1.maxSpeed = 10;
 
         Car car2 = new Car();
         car2.model = "Mercedes";
         car2.color = "black";
-        car2.releaseDate = new GregorianCalendar(2020, 0, 25);
+        car2.releaseDate = new GregorianCalendar(2020, Calendar.JANUARY, 25);
         car2.maxSpeed = 10;
 
         Assertions.assertEquals(car1.hashCode(),car2.hashCode());
@@ -102,13 +108,13 @@ public class EqualsHashCodeTest {
         Car car1 = new Car();
         car1.model = "Mercedes";
         car1.color = "black";
-        car1.releaseDate = new GregorianCalendar(2020, 0, 25);
+        car1.releaseDate = new GregorianCalendar(2020, Calendar.JANUARY, 25);
         car1.maxSpeed = 10;
 
         Car car2 = new Car();
         car2.model = "Audi";
         car2.color = "white";
-        car2.releaseDate = new GregorianCalendar(2017, 0, 25);
+        car2.releaseDate = new GregorianCalendar(2017, Calendar.JANUARY, 25);
         car2.maxSpeed = 10;
 
         Assertions.assertNotEquals(car1.hashCode(),car2.hashCode());

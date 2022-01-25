@@ -46,8 +46,6 @@ public class EqualsHashCodeTest {
 
             return result;
         }
-
-
      }
 
     @Test
@@ -121,6 +119,41 @@ public class EqualsHashCodeTest {
 
     }
 
+    // Рефлексивность - объект равен самому себе
+    // x.equals(x) ---> true
+    @Test
+    public void assertEqualsReflexivity() {
+        Car car1 = new Car();
+        car1.model = "Mercedes";
+        car1.color = "black";
+        car1.releaseDate = new GregorianCalendar(2020, Calendar.JANUARY, 25);
+        car1.maxSpeed = 10;
+
+        Assertions.assertEquals(car1, car1);
+    }
+
+    // Симметричность - для каждого экземпляра x и y: x.equals(y) должен
+    // возвращать true только тогда, когда y.equals(x) возвращает true
+    @Test
+    public void assertEqualsSymmetry() {
+        Car car1 = new Car();
+        car1.model = "Mercedes";
+        car1.color = "black";
+        car1.releaseDate = new GregorianCalendar(2020, Calendar.JANUARY, 25);
+        car1.maxSpeed = 10;
+
+        Car car2 = new Car();
+        car2.model = "Mercedes";
+        car2.color = "black";
+        car2.releaseDate = new GregorianCalendar(2020, Calendar.JANUARY, 25);
+        car2.maxSpeed = 10;
+
+        Assertions.assertEquals(car1, car2);
+        Assertions.assertEquals(car2, car1);
+    }
+
+    // Транзитивность: Для каждого экземпляра x, y и z должно выполнятся условие:
+    // если x.equals(y) возвращает true и y.equals(z) возращает true, тогда x.equals(z) должно возращать true
     @Test
     public void assertTrueTransitivity() {
         Car car1 = new Car();
@@ -141,14 +174,13 @@ public class EqualsHashCodeTest {
         car3.releaseDate = new GregorianCalendar(2020, Calendar.JANUARY, 25);
         car3.maxSpeed = 10;
 
-        // Транзитивность: Для каждого экземпляра x, y и z должно выполнятся условие:
-        // если x.equals(y) возвращает true и y.equals(z) возращает true, тогда x.equals(z) должно возращать true
         Assertions.assertTrue(car1.equals(car2));
         Assertions.assertTrue(car2.equals(car3));
         Assertions.assertTrue(car1.equals(car3));
-
     }
 
+    //  Согласованность: Для каждого экземпляра x повторное выполнение
+    //  x.hashCode() должно возвращать одинаковый хэш
     @Test
     public void assertEqualsConsistency() {
         Car car = new Car();
@@ -157,10 +189,19 @@ public class EqualsHashCodeTest {
         car.releaseDate = new GregorianCalendar(2019, Calendar.JANUARY,1);
         car.maxSpeed = 10;
 
-        //  Консистентность: Для каждого экземпляра x повторное выполнение
-        //  x.hashCode() должно возвращать одинаковый хэш
         Assertions.assertEquals(car.hashCode(), car.hashCode());
+    }
 
+    // Сравнение null
+    @Test
+    public void assertFalseNull() {
+        Car car = new Car();
+        car.model = "Audi";
+        car.color = "black";
+        car.releaseDate = new GregorianCalendar(2019, Calendar.JANUARY,1);
+        car.maxSpeed = 10;
+
+        Assertions.assertFalse(car.equals(null));
     }
 
 

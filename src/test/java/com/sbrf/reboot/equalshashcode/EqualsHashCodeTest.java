@@ -21,8 +21,8 @@ public class EqualsHashCodeTest {
             if (o == this)
              return true;
 
-            // Проверка объекта на null и на соответствие классов
-            // Для каждого экземпляра o: o.equals(null) должно возвращать false:
+            // Сравнение null и сравнение класса
+            // Для каждого экземпляра o: o.equals(null) должно возвращать false
             if (o == null || o.getClass() != this.getClass())
                 return false;
 
@@ -118,6 +118,48 @@ public class EqualsHashCodeTest {
         car2.maxSpeed = 10;
 
         Assertions.assertNotEquals(car1.hashCode(),car2.hashCode());
+
+    }
+
+    @Test
+    public void assertTrueTransitivity() {
+        Car car1 = new Car();
+        car1.model = "Mercedes";
+        car1.color = "black";
+        car1.releaseDate = new GregorianCalendar(2020, Calendar.JANUARY, 25);
+        car1.maxSpeed = 10;
+
+        Car car2 = new Car();
+        car2.model = "Mercedes";
+        car2.color = "black";
+        car2.releaseDate = new GregorianCalendar(2020, Calendar.JANUARY, 25);
+        car2.maxSpeed = 10;
+
+        Car car3 = new Car();
+        car3.model = "Mercedes";
+        car3.color = "black";
+        car3.releaseDate = new GregorianCalendar(2020, Calendar.JANUARY, 25);
+        car3.maxSpeed = 10;
+
+        // Транзитивность: Для каждого экземпляра x, y и z должно выполнятся условие:
+        // если x.equals(y) возвращает true и y.equals(z) возращает true, тогда x.equals(z) должно возращать true
+        Assertions.assertTrue(car1.equals(car2));
+        Assertions.assertTrue(car2.equals(car3));
+        Assertions.assertTrue(car1.equals(car3));
+
+    }
+
+    @Test
+    public void assertEqualsConsistency() {
+        Car car = new Car();
+        car.model = "Audi";
+        car.color = "black";
+        car.releaseDate = new GregorianCalendar(2019, Calendar.JANUARY,1);
+        car.maxSpeed = 10;
+
+        //  Консистентность: Для каждого экземпляра x повторное выполнение
+        //  x.hashCode() должно возвращать одинаковый хэш
+        Assertions.assertEquals(car.hashCode(), car.hashCode());
 
     }
 

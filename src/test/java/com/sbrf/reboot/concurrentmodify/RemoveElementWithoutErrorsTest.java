@@ -58,37 +58,15 @@ public class RemoveElementWithoutErrorsTest {
      * с помощью Streams.
      */
     @Test
-    public void successDeleteItemUsingStreams() {
+    public void successRemoveElementUsingStreams() {
 
         List<Integer> list = new ArrayList(Arrays.asList(1, 2, 3));
 
         List<Integer> checkList = new ArrayList(Arrays.asList(2, 3));
 
-        List<String> newList = list.stream()
-                .filter(i -> i != 1)
-                .map(Object::toString) // Object::toString - ссылка на метод
-                .collect(toList());
+        list = list.stream().filter(i -> i != 1).collect(toList());
 
-        Assertions.assertTrue(() ->{
-            boolean result = true; // будеем надеяться на лучшее
-
-            // При условии, что списки уже отсортированы
-            if (newList.size() == checkList.size()) {
-                for (int ind = 0; ind < newList.size(); ind++) {
-                    if (newList.get(ind).equals(Integer.toString(checkList.get(ind)))) {
-                        result = true;
-                    }
-                    else {
-                        result = false;
-                        break;
-                    }
-                }
-            }
-            else {
-                result = false;
-            }
-            return result;
-        });
+        Assertions.assertEquals(list,checkList);
 
     }
 

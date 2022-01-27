@@ -69,7 +69,26 @@ public class RemoveElementWithoutErrorsTest {
                 .map(Object::toString) // Object::toString - ссылка на метод
                 .collect(toList());
 
-        Assertions.assertTrue(checkList.containsAll(newList));
+        Assertions.assertTrue(() ->{
+            boolean result = true; // будеем надеяться на лучшее
+
+            // При условии, что списки уже отсортированы
+            if (newList.size() == checkList.size()) {
+                for (int ind = 0; ind < newList.size(); ind++) {
+                    if (newList.get(ind).equals(Integer.toString(checkList.get(ind)))) {
+                        result = true;
+                    }
+                    else {
+                        result = false;
+                        break;
+                    }
+                }
+            }
+            else {
+                result = false;
+            }
+            return result;
+        });
 
     }
 

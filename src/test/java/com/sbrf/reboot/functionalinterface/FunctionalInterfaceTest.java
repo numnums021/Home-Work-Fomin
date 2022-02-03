@@ -13,8 +13,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+
 public class FunctionalInterfaceTest {
 
+    /**
+     * Класс некоторого объекта, содержит 1 поле - имя объекта.
+     * С помощью аннотаций lombok реализованы базовые методы класса.
+     */
     @NoArgsConstructor
     @AllArgsConstructor
     @Data
@@ -22,26 +27,49 @@ public class FunctionalInterfaceTest {
         private String objectName;
     }
 
+    /**
+     * Функциональный интерфейс.
+     */
     @FunctionalInterface
     interface ObjectToJsonFunction<T> {
         String applyAsJson(T t) throws JsonProcessingException;
     }
 
+    /**
+     * Класс  ListConverter с единственным методом toJsonsList,
+     * который принимает на вход коллекцию объектов SomeObject
+     * и функциональный интерфейс ObjectToJsonFunction
+     */
     static class ListConverter<T> {
-        public List<String> toJsonsList(@NonNull List<T> someObjects, ObjectToJsonFunction<T> objectToJsonFunction) throws JsonProcessingException {
+        /**
+         * Метод преобразует коллекцию SomeObject объектов,
+         * в коллекцию с Json этих же объектов, для передачи,
+         * например, во фронтальную систему.
+         */
+        public List<String> toJsonsList(@NonNull List<T> someObjects, ObjectToJsonFunction<T> objectToJsonFunction) {
+
             List<String> result = new ArrayList<>();
+
             if (someObjects.isEmpty())
                 throw new IllegalArgumentException("The list is empty");
 
-            for (T element : someObjects)
-                result.add(objectToJsonFunction.applyAsJson(element));
+            for (T element : someObjects) {
+                try {
+                    result.add(objectToJsonFunction.applyAsJson(element));
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+            }
 
             return result;
         }
     }
 
+    /**
+     * Тестовый класс для проверки
+     */
     @Test
-    public void successCallFunctionalInterface() throws JsonProcessingException {
+    public void successCallFunctionalInterface() {
         ListConverter<SomeObject> ListConverter = new ListConverter<>();
 
         ObjectToJsonFunction<SomeObject> objectToJsonFunction = someObject -> new ObjectMapper().writeValueAsString(someObject);

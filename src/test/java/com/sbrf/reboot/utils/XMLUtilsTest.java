@@ -1,5 +1,6 @@
 package com.sbrf.reboot.utils;
 
+import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sbrf.reboot.dto.Request;
 import com.sbrf.reboot.dto.Response;
@@ -24,13 +25,13 @@ class XMLUtilsTest {
     }
 
     @Test
-    void XMLtoRequest() throws JsonProcessingException {
+    void XMLtoRequest() throws JacksonException {
         Request request = XMLUtils.XMLtoRequest("<Request><atmNumber>ATM12345</atmNumber></Request>");
         Assertions.assertEquals("ATM12345", request.getAtmNumber());
     }
 
     @Test
-    void XMLtoResponse() throws JsonProcessingException {
+    void XMLtoResponse() throws JacksonException {
         Response request = XMLUtils.XMLtoResponse("<Response><statusCode>SUCCESS</statusCode></Response>");
         Assertions.assertEquals("SUCCESS", request.getStatusCode());
     }

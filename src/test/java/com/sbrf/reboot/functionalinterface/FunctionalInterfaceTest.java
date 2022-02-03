@@ -1,6 +1,7 @@
 package com.sbrf.reboot.functionalinterface;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,25 +28,24 @@ public class FunctionalInterfaceTest {
     }
 
     static class ListConverter<T> {
-        public List<String> toJsonsList(@NonNull List<T> someObjects, ObjectToJsonFunction<T> objectToJsonFunction) {
+        public List<String> toJsonsList(@NonNull List<T> someObjects, ObjectToJsonFunction<T> objectToJsonFunction) throws JsonProcessingException {
             List<String> result = new ArrayList<>();
             if (someObjects.isEmpty())
                 throw new IllegalArgumentException("The list is empty");
 
-            //add code here...
-
+            for (T element : someObjects) {
+                // result.add(new ObjectMapper().writeValueAsString(element));
+                result.add(objectToJsonFunction.applyAsJson(element));
+            }
             return result;
         }
     }
 
     @Test
-    public void successCallFunctionalInterface() {
+    public void successCallFunctionalInterface() throws JsonProcessingException {
         ListConverter<SomeObject> ListConverter = new ListConverter<>();
 
-        ObjectToJsonFunction<SomeObject> objectToJsonFunction = someObject -> {
-            //add code here...
-            return null;
-        };
+        ObjectToJsonFunction<SomeObject> objectToJsonFunction = someObject -> new ObjectMapper().writeValueAsString(someObject);
 
         List<String> strings = ListConverter.toJsonsList(
                 Arrays.asList(

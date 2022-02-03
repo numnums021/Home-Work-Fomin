@@ -35,7 +35,7 @@ public class MyFunctionalInterfaceTest {
    }
 
     /**
-     * Тестовый метод, сравнивающий силу двух ниндзя
+     * Тестовый метод, проверяющий правильность сравнения сил двух ниндзя.
      */
    @Test
    public void successfulNinjaPowerCheck() {

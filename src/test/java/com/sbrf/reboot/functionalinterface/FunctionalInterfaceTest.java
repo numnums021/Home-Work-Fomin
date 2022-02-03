@@ -33,10 +33,9 @@ public class FunctionalInterfaceTest {
             if (someObjects.isEmpty())
                 throw new IllegalArgumentException("The list is empty");
 
-            for (T element : someObjects) {
-                // result.add(new ObjectMapper().writeValueAsString(element));
+            for (T element : someObjects)
                 result.add(objectToJsonFunction.applyAsJson(element));
-            }
+
             return result;
         }
     }

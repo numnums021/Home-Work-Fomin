@@ -2,14 +2,14 @@ package com.sbrf.reboot.repository.impl;
 
 import com.sbrf.reboot.dto.Customer;
 import com.sbrf.reboot.repository.CustomerRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class CustomerH2RepositoryTest {
 
@@ -47,7 +47,6 @@ class CustomerH2RepositoryTest {
     @Test
     void updateCustomer() throws SQLException {
 
-        Customer newCustomer = new Customer(9L, "Danya", "numnums021@gmail.com");
         boolean mariaUpdate = customerRepository.updateCustomer(9L, "Danya", "numnums021@gmail.com");
 
         assertTrue(mariaUpdate);
@@ -60,5 +59,15 @@ class CustomerH2RepositoryTest {
         Customer getCustomer = customerRepository.getCustomer(16L);
 
         assertEquals(newCustomer, getCustomer);
+    }
+
+    @Test
+    void checkFalseCustomerExists() throws SQLException {
+        Assertions.assertFalse(customerRepository.checkCustomer("Grindevald"));
+    }
+
+    @Test
+    void checkTrueCustomerExists() throws SQLException {
+        Assertions.assertTrue(customerRepository.checkCustomer("Danya"));
     }
 }

@@ -18,4 +18,5 @@ public interface CustomerRepository {
 
     boolean deleteCustomer(@NonNull Long id) throws SQLException;
 
+    boolean checkCustomer(@NonNull String name) throws SQLException;
 }

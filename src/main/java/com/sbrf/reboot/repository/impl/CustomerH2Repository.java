@@ -2,6 +2,8 @@ package com.sbrf.reboot.repository.impl;
 
 import com.sbrf.reboot.dto.Customer;
 import com.sbrf.reboot.repository.CustomerRepository;
+import lombok.NonNull;
+
 import java.nio.channels.ConnectionPendingException;
 import java.sql.*;
 import java.util.ArrayList;
@@ -117,6 +119,20 @@ public class CustomerH2Repository implements CustomerRepository {
         return rows > 0;
     }
 
+    @Override
+    public boolean checkCustomer(@NonNull String name) throws SQLException {
+        try (Connection conn = getConnection().orElseThrow(ConnectionPendingException::new)) {
+            try (PreparedStatement pStmt = conn.prepareStatement("SELECT name FROM Customer WHERE EXISTS(" +
+                    "SELECT name FROM Customer WHERE (name = ?));")) {
+
+                pStmt.setString(1, name);
+
+                ResultSet resultSet = pStmt.executeQuery();
+
+                return (resultSet.next());
+            }
+        }
+    }
 }
 
 

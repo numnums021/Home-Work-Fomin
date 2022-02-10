@@ -8,8 +8,14 @@ import java.util.List;
 
 public interface CustomerRepository {
 
-    boolean createCustomer(@NonNull String userName, String eMail) throws SQLException;
+    boolean createCustomer(@NonNull String userName,@NonNull String eMail) throws SQLException;
 
     List<Customer> getAll() throws SQLException;
+
+    Customer getCustomer(@NonNull Long id) throws SQLException;
+
+    boolean updateCustomer(@NonNull Long id, @NonNull String name, @NonNull String eMail) throws SQLException;
+
+    boolean deleteCustomer(@NonNull Long id) throws SQLException;
 
 }

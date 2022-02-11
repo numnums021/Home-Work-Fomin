@@ -71,21 +71,25 @@ class CustomerH2RepositoryTest {
 
     @Test
     void checkFalseCustomerExists(){
-        Assertions.assertFalse(customerRepository.checkCustomer("Grindevald"));
+        boolean grindevaldIsNotExists = customerRepository.checkCustomer("Grindevald");
+        Assertions.assertFalse(grindevaldIsNotExists);
     }
 
     @Test
     void checkTrueCustomerExists(){
-        Assertions.assertTrue(customerRepository.checkCustomer("Danya"));
+        boolean danyaIsExists = customerRepository.checkCustomer("Danya");
+        Assertions.assertTrue(danyaIsExists);
     }
 
     @Test
     void checkFalseCustomerExists2(){
-        Assertions.assertFalse(customerRepository.customerIsExist("Danya2","numnums021@gmail2.com"));
+        boolean danyaIsNotExists = customerRepository.customerIsExist("Danya2","numnums021@gmail2.com");
+        Assertions.assertFalse(danyaIsNotExists);
     }
 
     @Test
     void checkTrueCustomerExists2(){
-        Assertions.assertTrue(customerRepository.customerIsExist("Danya","numnums021@gmail.com"));
+        boolean danyaIsExists = customerRepository.customerIsExist("Danya2","numnums021@gmail2.com");
+        Assertions.assertTrue(danyaIsExists);
     }
 }

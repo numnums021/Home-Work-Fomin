@@ -26,10 +26,7 @@ public class CustomerH2Repository implements CustomerRepository {
     private void createTable() {
         try (Connection conn = getConnection().orElseThrow(ConnectionPendingException::new)) {
             try (PreparedStatement pStmt = conn.prepareStatement("CREATE TABLE IF NOT EXISTS CUSTOMER" +
-                    "(id INT auto_increment," +
-                    "name VARCHAR(255)," +
-                    "email VARCHAR(255)," +
-                    "PRIMARY KEY (id));")) {
+                    "(id INT auto_increment, name VARCHAR(255), email VARCHAR(255), PRIMARY KEY (id));")) {
 
                 pStmt.executeUpdate();
             }
@@ -148,8 +145,7 @@ public class CustomerH2Repository implements CustomerRepository {
     @Override
     public boolean checkCustomer(String name){
         try (Connection conn = getConnection().orElseThrow(ConnectionPendingException::new)) {
-            try (PreparedStatement pStmt = conn.prepareStatement("SELECT name FROM Customer WHERE EXISTS(" +
-                    "SELECT name FROM Customer WHERE (name = ?));")) {
+            try (PreparedStatement pStmt = conn.prepareStatement("SELECT DISTINCT name FROM Customer WHERE (name = ?);")) {
 
                 pStmt.setString(1, name);
 
@@ -157,8 +153,8 @@ public class CustomerH2Repository implements CustomerRepository {
 
                 return (resultSet.next());
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
         }
 
         return false;
@@ -167,8 +163,7 @@ public class CustomerH2Repository implements CustomerRepository {
     @Override
     public boolean customerIsExist(String name, String eMail){
         try (Connection conn = getConnection().orElseThrow(ConnectionPendingException::new)) {
-            try (PreparedStatement pStmt = conn.prepareStatement("SELECT name FROM Customer WHERE EXISTS(" +
-                    "SELECT name FROM Customer WHERE (name = ? AND eMail = ?));")) {
+            try (PreparedStatement pStmt = conn.prepareStatement("SELECT DISTINCT name FROM Customer WHERE (name = ? AND eMail = ?);")) {
 
                 pStmt.setString(1, name);
                 pStmt.setString(2, eMail);
@@ -177,8 +172,8 @@ public class CustomerH2Repository implements CustomerRepository {
 
                 return (resultSet.next());
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
         }
 
         return false;

@@ -5,8 +5,6 @@ import com.sbrf.reboot.repository.CustomerRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,7 +19,7 @@ class CustomerH2RepositoryTest {
     }
 
     @Test
-    void getAll() throws SQLException {
+    void getAll(){
         boolean tomCreated = customerRepository.createCustomer("Tom", "tom@ya.ru");
         List<Customer> all = customerRepository.getAll();
 
@@ -29,32 +27,37 @@ class CustomerH2RepositoryTest {
     }
 
     @Test
-    void createCustomer() throws SQLException {
-
-        boolean mariaCreated = customerRepository.createCustomer("Maria", "maria98@ya.ru");
-
+    void createCustomerTrue(){
+        boolean mariaCreated = customerRepository.createCustomer("Eva", "eva98@ya.ru");
         assertTrue(mariaCreated);
     }
 
     @Test
-    void deleteCustomer() throws SQLException {
+    void createCustomerFalse(){
+        boolean mariaCreated = customerRepository.createCustomer("Maria", "maria98@ya.ru");
+        assertFalse(mariaCreated);
+    }
 
-        boolean mariaDeleted = customerRepository.deleteCustomer(15L);
-
+    @Test
+    void deleteCustomerTrue(){
+        boolean mariaDeleted = customerRepository.deleteCustomer(9L);
         assertTrue(mariaDeleted);
     }
 
     @Test
-    void updateCustomer() throws SQLException {
+    void deleteCustomerFalse(){
+        boolean mariaDeleted = customerRepository.deleteCustomer(100L);
+        assertFalse(mariaDeleted);
+    }
 
+    @Test
+    void updateCustomerTrue(){
         boolean mariaUpdate = customerRepository.updateCustomer(9L, "Danya", "numnums021@gmail.com");
-
         assertTrue(mariaUpdate);
     }
 
     @Test
-    void getCustomer() throws SQLException {
-
+    void getCustomer(){
         Customer newCustomer = new Customer(16L, "Danya", "numnums021@gmail.com");
         Customer getCustomer = customerRepository.getCustomer(16L);
 
@@ -62,12 +65,27 @@ class CustomerH2RepositoryTest {
     }
 
     @Test
-    void checkFalseCustomerExists() throws SQLException {
+    void getNullCustomer(){
+        assertNull(customerRepository.getCustomer(100L));
+    }
+
+    @Test
+    void checkFalseCustomerExists(){
         Assertions.assertFalse(customerRepository.checkCustomer("Grindevald"));
     }
 
     @Test
-    void checkTrueCustomerExists() throws SQLException {
+    void checkTrueCustomerExists(){
         Assertions.assertTrue(customerRepository.checkCustomer("Danya"));
+    }
+
+    @Test
+    void checkFalseCustomerExists2(){
+        Assertions.assertFalse(customerRepository.customerIsExist("Danya2","numnums021@gmail2.com"));
+    }
+
+    @Test
+    void checkTrueCustomerExists2(){
+        Assertions.assertTrue(customerRepository.customerIsExist("Danya","numnums021@gmail.com"));
     }
 }
